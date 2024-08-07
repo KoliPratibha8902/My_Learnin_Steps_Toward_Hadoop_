@@ -18,25 +18,32 @@ Here are the primary components of MapReduce:
 1. InputSplit
 - Definition: InputSplit is a logical representation of the chunk of data that each Mapper processes.
 - Role: It splits the input data into manageable chunks for parallel processing by multiple Mappers.
+
 2. RecordReader
 - Definition: RecordReader is responsible for reading the raw data from the InputSplit and converting it into key-value pairs.
 - Role: It parses the input into records that are understandable by the Mapper, typically converting lines of text into key-value pairs.
+
 3. Mapper
 - Definition: The Mapper processes each input record and produces intermediate key-value pairs.
 - Role: It transforms and filters the input data into a form that can be reduced, generating intermediate data for the next phase.
+
 4. Combiner
 - Definition: The Combiner is an optional component that performs local aggregation of intermediate data to minimize the volume of data transferred to the Reducers.
 - Role: It acts as a mini-reducer, combining intermediate data on the Mapper side to optimize the performance of the MapReduce job.
+
 5. Partitioner
 - Definition: The Partitioner determines which Reducer will process each key-value pair based on the key.
 - Role: It ensures that all the values for a given key are sent to the same Reducer, which is crucial for correct data aggregation.
+
 6. Shuffling and Sorting
 - Definition: This phase involves transferring data from Mappers to Reducers (shuffling) and sorting the intermediate data by key.
 - Role: It groups all the values for each key together, preparing the data for the reduction phase.
+
 7. Reducer
 - Definition: The Reducer processes the sorted key-value pairs from the shuffling and sorting phase and produces the final output.
 - Role: It aggregates and reduces the intermediate data into the final output, performing operations like summing, averaging, or other forms of aggregation.
-- Example
+
+## Example
 ![Architecture Diagram](map_reduce.png)
 
 
