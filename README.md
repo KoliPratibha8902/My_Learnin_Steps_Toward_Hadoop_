@@ -1,6 +1,7 @@
 # My Learning Journey Towards Hadoop
 As a Data Science student, I am excited to dive into the world of Big Data Engineering, which is a critical part of my curriculum in Semester 6. I have decided to start my learning journey with Hadoop, followed by Kafka, Spark or PySpark, I am planning learning path starting with Hadoop and progressing through related technologies.
-Here’s a detailed plan for my learning journey and detailed overview of each technology, including their architectures and key concepts.
+
+Here’s a detailed overview of each technology, including their architectures and key concepts.
 ## 1. Hadoop
 Hadoop is an open-source framework designed for distributed storage and processing of large datasets using the MapReduce programming model. 
 It comprises several key components:
@@ -16,23 +17,27 @@ HDFS Architecture:
 ### Components of HDFS
 Hadoop Distributed File System (HDFS) is designed to store and manage large datasets across multiple machines. 
 Here are its main components:
-
 1. NameNode
 - Definition: The NameNode is the master server that manages the file system namespace and regulates access to files.
 - Role: It maintains metadata about the files and directories, such as file names, permissions, and the locations of data blocks. It does not store the data itself but the metadata.
+
 2. DataNodes
 - Definition: DataNodes are the worker nodes that store the actual data in the HDFS.
 - Role: They manage storage attached to the nodes and serve read/write requests from clients. DataNodes are responsible for block creation, deletion, and replication based on the instructions from the NameNode.
+
 3. Replication
 - Definition: HDFS replicates each block of data across multiple DataNodes.
 - Role: Replication ensures data reliability and availability, with the default replication factor typically being three. This redundancy protects against data loss due to node failures.
+
 4. Metadata Operations
 - Definition: Metadata operations involve managing the file system's structure and its metadata.
 - Role: The NameNode handles these operations, including maintaining file hierarchy, access permissions, and information about data block locations.
 
 ## Learning Of MapReduce Actually
 ## MapReduce: 
-MapReduce is a programming model for processing large datasets in parallel across a Hadoop cluster. It consists of two main functions: the Map function processes and filters data, while the Reduce function aggregates the results.
+MapReduce is a programming model for processing large datasets in parallel across a Hadoop cluster. 
+It consists of two main functions: the Map function processes and filters data, while the Reduce function aggregates the results.
+
 MapReduce Architecture:
 ![Architecture Diagram](mapreduce_architecture.jpg)
 ### Components of MapReduce
@@ -76,22 +81,21 @@ YARN (Yet Another Resource Negotiator): YARN is the resource management layer of
 ### Example Scenario without Code ###
 Imagine a scenario where we have a large dataset containing user logs from a website. We want to analyze this data to count the number of times each user visits the site. Here's how MapReduce and HDFS components would work together:
 
-Data Ingestion:
+**Data Ingestion**
+- HDFS: The raw log data is stored in HDFS, distributed across multiple DataNodes.
+- NameNode: Keeps metadata about the file locations and structure.
 
-HDFS: The raw log data is stored in HDFS, distributed across multiple DataNodes.
-NameNode: Keeps metadata about the file locations and structure.
-Processing with MapReduce:
+**Processing with MapReduce**
+- InputSplit: The large log file is divided into smaller InputSplits.
+- RecordReader: Reads each InputSplit and converts lines of logs into key-value pairs (user ID, 1).
+- Mapper: Processes each key-value pair and emits intermediate pairs (user ID, 1).
+- Combiner: Locally aggregates the counts for each user ID, emitting pairs like (user ID, total visits).
+- Partitioner: Determines which Reducer will process each key, ensuring that all data for a user ID goes to the same Reducer.
+- Shuffling and Sorting: Transfers and sorts the intermediate data by user ID.
+- Reducer: Aggregates the total visits for each user ID and outputs the final count.
 
-InputSplit: The large log file is divided into smaller InputSplits.
-RecordReader: Reads each InputSplit and converts lines of logs into key-value pairs (user ID, 1).
-Mapper: Processes each key-value pair and emits intermediate pairs (user ID, 1).
-Combiner: Locally aggregates the counts for each user ID, emitting pairs like (user ID, total visits).
-Partitioner: Determines which Reducer will process each key, ensuring that all data for a user ID goes to the same Reducer.
-Shuffling and Sorting: Transfers and sorts the intermediate data by user ID.
-Reducer: Aggregates the total visits for each user ID and outputs the final count.
-Data Output:
-
-HDFS: The final aggregated data (user ID, total visits) is stored back in HDFS for further analysis or reporting.
+**Data Output**
+- HDFS: The final aggregated data (user ID, total visits) is stored back in HDFS for further analysis or reporting.
 
 ## Learning Path:
 - Understand the basics of Hadoop and its ecosystem.
